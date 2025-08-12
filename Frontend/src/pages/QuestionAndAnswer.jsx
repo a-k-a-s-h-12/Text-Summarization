@@ -30,7 +30,7 @@ export default function QuestionAndAnswer() {
             }
 
             const res = await axios.post(
-                "http://localhost:5000/getquestionAndAnswer/questionAndAnswers",
+                "https://text-summarization-backend.onrender.com/getquestionAndAnswer/questionAndAnswers",
                 { question },
                 {
                     headers: {
