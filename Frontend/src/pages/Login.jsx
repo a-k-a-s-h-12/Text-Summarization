@@ -23,12 +23,12 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-gray-800 p-8 rounded-2xl shadow-lg font-mono"
+        className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg font-mono"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-center font-mono">Login</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center font-mono">Login</h2>
 
         <input
           name="email"
@@ -36,7 +36,7 @@ function Login() {
           placeholder="Email"
           required
           onChange={handleChange}
-          className="w-full px-4 py-3 mb-4 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 font-mono focus:ring-indigo-500"
+          className="w-full px-3 py-2 sm:px-4 sm:py-3 mb-4 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 font-mono focus:ring-indigo-500 text-sm sm:text-base"
         />
 
         <input
@@ -45,19 +45,19 @@ function Login() {
           placeholder="Password"
           required
           onChange={handleChange}
-          className="w-full px-4 py-3 mb-6 bg-gray-700 border border-gray-600 rounded-lg font-mono focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 sm:px-4 sm:py-3 mb-6 bg-gray-700 border border-gray-600 rounded-lg font-mono focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
         />
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-lg font-mono font-semibold"
+          className="w-full bg-indigo-600 hover:bg-indigo-500 py-2 sm:py-3 rounded-lg font-mono font-semibold text-sm sm:text-base transition duration-200"
         >
           Login
         </button>
 
-        <div className="mt-6 text-center text-sm font-mono">
+        <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm font-mono">
           Don't have an account?{" "}
-          <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-mono">
+          <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-mono transition duration-200">
             Register
           </Link>
         </div>
