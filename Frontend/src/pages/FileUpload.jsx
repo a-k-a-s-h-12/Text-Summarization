@@ -21,7 +21,7 @@ export default function FileUpload() {
         const token = localStorage.getItem("token"); 
         setUserID(id);
 
-        const res = await axios.get("http://localhost:5000/file/my-files", {
+        const res = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
           headers: {
             userid: id, 
             Authorization: `Bearer ${token}` // send JWT for auth
@@ -58,7 +58,7 @@ export default function FileUpload() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.post("http://localhost:5000/file/upload", formData, {
+      const res = await axios.post("https://text-summarization-backend.onrender.com/file/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}` // JWT token
@@ -67,7 +67,7 @@ export default function FileUpload() {
       // console.log(res.data);
 
       // Refresh files list after upload
-      const updated = await axios.get("http://localhost:5000/file/my-files", {
+      const updated = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
         headers: {
           userid: userID,
           Authorization: `Bearer ${token}`
