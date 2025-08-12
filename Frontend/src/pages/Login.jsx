@@ -23,10 +23,10 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg font-mono"
+        className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg font-mono mx-4 my-8"
       >
         <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center font-mono">Login</h2>
 
