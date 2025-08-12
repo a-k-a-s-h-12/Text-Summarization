@@ -13,7 +13,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/auth/register", formData);
+      await axios.post("https://text-summarization-backend.onrender.com/auth/register", formData);
       navigate("/login");
     } catch (error) {
       alert(error.response?.data?.msg || "Registration failed");
