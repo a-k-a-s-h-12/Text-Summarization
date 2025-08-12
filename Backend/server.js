@@ -8,7 +8,7 @@ const authRoutes = require('./routes/auth')
 const fileRotues = require('./routes/file')
 const questionRoutes = require('./routes/questionandAnswer');
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://text-summarization-5l4z.onrender.com", credentials: true }));
 app.use(express.json());
 app.use('/auth',authRoutes)
 app.use('/file',fileRotues)
