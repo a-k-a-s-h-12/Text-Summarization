@@ -30,7 +30,7 @@ export default function QuestionAndAnswer() {
             }
 
             const res = await axios.post(
-                "https://text-summarization-backend.onrender.com/getquestionAndAnswer/questionAndAnswers",
+                "http://localhost:5000/getquestionAndAnswer/questionAndAnswers",
                 { question },
                 {
                     headers: {
@@ -68,7 +68,7 @@ export default function QuestionAndAnswer() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-8 font-mono pt-[200px]">
+        <div className="min-h-screen bg-gray-900 text-white p-8 font-mono">
             <div className="max-w-4xl mx-auto">
                 <button
                     onClick={() => navigate(-1)}
