@@ -12,7 +12,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:5000/auth/login", formData);
+      const { data } = await axios.post("https://text-summarization-backend.onrender.com/auth/login", formData);
       localStorage.setItem("token", data.token);
       localStorage.setItem("userID", data.user.id);
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
