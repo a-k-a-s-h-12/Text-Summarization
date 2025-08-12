@@ -21,7 +21,7 @@ export default function FileUpload() {
         }
         setUserID(id);
 
-        const res = await axios.get("http://localhost:5000/file/my-files", {
+        const res = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
           headers: { userid: id },
         });
 
