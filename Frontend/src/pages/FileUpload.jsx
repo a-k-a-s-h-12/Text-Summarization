@@ -53,11 +53,11 @@ export default function FileUpload() {
     formData.append("userId", userID);
 
     try {
-      const res = await axios.post("http://localhost:5000/file/upload", formData, {
+      const res = await axios.post("https://text-summarization-backend.onrender.com/file/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      const updated = await axios.get("http://localhost:5000/file/my-files", {
+      const updated = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
         headers: { userid: userID },
       });
       setFiles(updated.data);
