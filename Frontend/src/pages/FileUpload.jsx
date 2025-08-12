@@ -21,7 +21,7 @@ export default function FileUpload() {
         const token = localStorage.getItem("token"); 
         setUserID(id);
 
-        const res = await axios.get("http://localhost:5000/file/my-files", {
+        const res = await axios.get("https://text-summarization-5l4z.onrender.com/file/my-files", {
           headers: {
             userid: id, 
             Authorization: `Bearer ${token}`
@@ -57,14 +57,14 @@ export default function FileUpload() {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.post("http://localhost:5000/file/upload", formData, {
+      await axios.post("https://text-summarization-5l4z.onrender.com/file/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`
         },
       });
 
-      const updated = await axios.get("http://localhost:5000/file/my-files", {
+      const updated = await axios.get("https://text-summarization-5l4z.onrender.com/file/my-files", {
         headers: {
           userid: userID,
           Authorization: `Bearer ${token}`
