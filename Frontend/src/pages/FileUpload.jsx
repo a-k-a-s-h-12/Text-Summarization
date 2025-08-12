@@ -8,7 +8,7 @@ export default function FileUpload() {
   const [error, setError] = useState("");
   const [userID, setUserID] = useState("");
   const [files, setFiles] = useState([]);
-  const [selectedSummary, setSelectedSummary] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,9 +21,10 @@ export default function FileUpload() {
         }
         setUserID(id);
 
-        const res = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
-          headers: { userid: id },
-        });
+        const res = await axios.get(
+          "https://text-summarization-backend.onrender.com/file/my-files",
+          { headers: { userid: id } }
+        );
 
         setFiles(res.data);
       } catch (error) {
@@ -53,15 +54,17 @@ export default function FileUpload() {
     formData.append("userId", userID);
 
     try {
-      const res = await axios.post("https://text-summarization-backend.onrender.com/file/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        "https://text-summarization-backend.onrender.com/file/upload",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
-      const updated = await axios.get("https://text-summarization-backend.onrender.com/file/my-files", {
-        headers: { userid: userID },
-      });
+      const updated = await axios.get(
+        "https://text-summarization-backend.onrender.com/file/my-files",
+        { headers: { userid: userID } }
+      );
       setFiles(updated.data);
-
     } catch (err) {
       setError(err.response?.data?.msg || "Error uploading file");
     } finally {
@@ -69,23 +72,29 @@ export default function FileUpload() {
     }
   };
 
+  const goToQnA = () => {
+    if (selectedFile) {
+      navigate(`/qna/${selectedFile._id}`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Mobile: Stacked layout */}
+        {/* Mobile layout */}
         <div className="lg:hidden space-y-6">
-          {/* My Files - Top on mobile */}
+          {/* My Files */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">My Files</h2>
             <ul className="space-y-2 max-h-60 overflow-y-auto">
               {files.length > 0 ? (
-                files.map((file) => (
+                files.map((f) => (
                   <li
-                    key={file._id}
+                    key={f._id}
                     className="cursor-pointer p-2 rounded hover:bg-gray-700 transition text-sm"
-                    onClick={() => setSelectedSummary(file.summary)}
+                    onClick={() => setSelectedFile(f)}
                   >
-                    {file.filename}
+                    {f.filename}
                   </li>
                 ))
               ) : (
@@ -94,7 +103,7 @@ export default function FileUpload() {
             </ul>
           </div>
 
-          {/* File Upload - Middle on mobile */}
+          {/* Upload PDF */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">Upload PDF</h2>
             <form onSubmit={handleUpload} className="space-y-4">
@@ -119,18 +128,10 @@ export default function FileUpload() {
                 type="submit"
                 disabled={uploading}
                 className={`w-full py-3 rounded-lg font-medium text-sm transition-all ${
-                  uploading ? 'bg-gray-600 cursor-not-allowed' : 'bg-indigo-700 hover:bg-indigo-600'
+                  uploading ? "bg-gray-600 cursor-not-allowed" : "bg-indigo-700 hover:bg-indigo-600"
                 }`}
               >
-                {uploading ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : "Generate Summary"}
+                {uploading ? "Processing..." : "Generate Summary"}
               </button>
 
               {error && (
@@ -141,14 +142,23 @@ export default function FileUpload() {
             </form>
           </div>
 
+          {/* Summary + Q&A */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">Summary</h2>
-            {selectedSummary ? (
-              <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700 max-h-60 overflow-y-auto">
-                <p className="text-sm text-gray-200 whitespace-pre-line">
-                  {selectedSummary}
-                </p>
-              </div>
+            {selectedFile ? (
+              <>
+                <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700 max-h-60 overflow-y-auto">
+                  <p className="text-sm text-gray-200 whitespace-pre-line">
+                    {selectedFile.summary}
+                  </p>
+                </div>
+                <button
+                  onClick={goToQnA}
+                  className="mt-4 w-full py-2 rounded-lg bg-green-700 hover:bg-green-600 text-sm font-medium"
+                >
+                  Ask Questions
+                </button>
+              </>
             ) : (
               <div className="flex items-center justify-center h-32">
                 <p className="text-gray-400 text-sm">Select a file to view summary</p>
@@ -157,20 +167,20 @@ export default function FileUpload() {
           </div>
         </div>
 
-        {/* Desktop: 3-column layout */}
+        {/* Desktop layout */}
         <div className="hidden lg:grid grid-cols-3 gap-6">
-          {/* My Files - Left column */}
+          {/* My Files */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">My Files</h2>
             <ul className="space-y-2 h-[500px] overflow-y-auto">
               {files.length > 0 ? (
-                files.map((file) => (
+                files.map((f) => (
                   <li
-                    key={file._id}
+                    key={f._id}
                     className="cursor-pointer p-2 rounded hover:bg-gray-700 transition text-sm"
-                    onClick={() => setSelectedSummary(file.summary)}
+                    onClick={() => setSelectedFile(f)}
                   >
-                    {file.filename}
+                    {f.filename}
                   </li>
                 ))
               ) : (
@@ -179,7 +189,7 @@ export default function FileUpload() {
             </ul>
           </div>
 
-          
+          {/* Upload PDF */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">Upload PDF</h2>
             <form onSubmit={handleUpload} className="space-y-4">
@@ -204,18 +214,10 @@ export default function FileUpload() {
                 type="submit"
                 disabled={uploading}
                 className={`w-full py-3 rounded-lg font-medium text-sm transition-all ${
-                  uploading ? 'bg-gray-600 cursor-not-allowed' : 'bg-indigo-700 hover:bg-indigo-600'
+                  uploading ? "bg-gray-600 cursor-not-allowed" : "bg-indigo-700 hover:bg-indigo-600"
                 }`}
               >
-                {uploading ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : "Generate Summary"}
+                {uploading ? "Processing..." : "Generate Summary"}
               </button>
 
               {error && (
@@ -226,15 +228,23 @@ export default function FileUpload() {
             </form>
           </div>
 
-          
+          {/* Summary + Q&A */}
           <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
             <h2 className="text-xl font-semibold mb-4 uppercase tracking-wider">Summary</h2>
-            {selectedSummary ? (
-              <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700 h-[500px] overflow-y-auto">
-                <p className="text-sm text-gray-200 whitespace-pre-line">
-                  {selectedSummary}
-                </p>
-              </div>
+            {selectedFile ? (
+              <>
+                <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700 h-[500px] overflow-y-auto">
+                  <p className="text-sm text-gray-200 whitespace-pre-line">
+                    {selectedFile.summary}
+                  </p>
+                </div>
+                <button
+                  onClick={goToQnA}
+                  className="mt-4 w-full py-2 rounded-lg bg-green-700 hover:bg-green-600 text-sm font-medium"
+                >
+                  Ask Questions
+                </button>
+              </>
             ) : (
               <div className="flex items-center justify-center h-[500px]">
                 <p className="text-gray-400 text-sm">Select a file to view summary</p>
