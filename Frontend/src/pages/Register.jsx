@@ -12,7 +12,10 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://text-summarization-backend.onrender.com/auth/register", formData);
+      await axios.post(
+        "https://text-summarization-backend.onrender.com/auth/register",
+        formData
+      );
       navigate("/login");
     } catch (err) {
       alert(err.response?.data?.msg || "Registration failed");
@@ -21,12 +24,16 @@ function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8 py-12">
-      <div className="w-full max-w-2xl mx-4"> {/* Added container for better margin control */}
+      {/* Added container for better margin control */}
+      <div className="w-full max-w-2xl mx-4">
+        {/* Added mx-auto for centering */}
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg font-mono mx-auto my-8" {/* Added mx-auto for centering */}
+          className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg font-mono mx-auto my-8"
         >
-          <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center font-mono">Register</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-center font-mono">
+            Register
+          </h2>
 
           <input
             name="name"
@@ -63,7 +70,10 @@ function Register() {
 
           <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm font-mono">
             Already have an account?{" "}
-            <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-mono transition duration-200">
+            <Link
+              to="/login"
+              className="text-indigo-400 hover:text-indigo-300 font-mono transition duration-200"
+            >
               Login
             </Link>
           </div>
